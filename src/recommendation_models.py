@@ -4,7 +4,7 @@ Recommendation Models Implementation
 import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
-from sentence_transformers import SentenceTransformer
+# from sentence_transformers import SentenceTransformer
 import numpy as np
 class UserBasedCF:
     """User-Based Collaborative Filtering"""
@@ -133,25 +133,25 @@ class HybridRecommender:
         return [anime_id for anime_id, _ in final]
     
 
-class EmbeddingBasedRecommender:
-    """Advanced recommendation using sentence embeddings"""
+# class EmbeddingBasedRecommender:
+#     """Advanced recommendation using sentence embeddings"""
     
-    def __init__(self, anime_df):
-        self.anime_df = anime_df
-        self.model = SentenceTransformer('all-MiniLM-L6-v2')
-        self.embeddings = None
+#     def __init__(self, anime_df):
+#         self.anime_df = anime_df
+#         self.model = SentenceTransformer('all-MiniLM-L6-v2')
+#         self.embeddings = None
     
-    def fit(self):
-        """Generate embeddings from genres + synopsis"""
-        texts = self.anime_df.apply(
-            lambda x: f"{x['Genres']} {x.get('Synopsis', '')}", axis=1
-        ).tolist()
-        self.embeddings = self.model.encode(texts)
-        return self
+#     def fit(self):
+#         """Generate embeddings from genres + synopsis"""
+#         texts = self.anime_df.apply(
+#             lambda x: f"{x['Genres']} {x.get('Synopsis', '')}", axis=1
+#         ).tolist()
+#         self.embeddings = self.model.encode(texts)
+#         return self
     
-    def recommend(self, anime_id, top_n=10):
-        """Get recommendations using cosine similarity on embeddings"""
-        idx = self.anime_df[self.anime_df['anime_id'] == anime_id].index[0]
-        similarities = cosine_similarity([self.embeddings[idx]], self.embeddings)[0]
-        similar_indices = np.argsort(similarities)[::-1][1:top_n+1]
-        return self.anime_df.iloc[similar_indices]['anime_id'].tolist()    
+#     def recommend(self, anime_id, top_n=10):
+#         """Get recommendations using cosine similarity on embeddings"""
+#         idx = self.anime_df[self.anime_df['anime_id'] == anime_id].index[0]
+#         similarities = cosine_similarity([self.embeddings[idx]], self.embeddings)[0]
+#         similar_indices = np.argsort(similarities)[::-1][1:top_n+1]
+#         return self.anime_df.iloc[similar_indices]['anime_id'].tolist()    
