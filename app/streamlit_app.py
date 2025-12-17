@@ -172,7 +172,7 @@ with st.sidebar:
     # Navigation
     page = st.radio(
         "Chọn trang:",
-        ["🏠 Trang chủ", "📚 Quản lý Tư phim", "🔍 Tìm kiếm", "📊 Biểu đồ phân tích"],
+        ["🏠 Trang chủ", "📚 Quản lý Tủ phim", "🔍 Tìm kiếm", "📊 Biểu đồ phân tích"],
         label_visibility="collapsed"
     )
     
@@ -278,20 +278,20 @@ def display_anime_card(anime_row, show_add_button=True):
             st.caption(f"📺 {anime_row['Type']} • Episodes: {anime_row['Episodes']}")
             
             if show_add_button:
-                if st.button(f"➕ Thêm vào Tư phim", key=f"add_{anime_row['anime_id']}"):
+                if st.button(f"➕ Thêm vào Tủ phim", key=f"add_{anime_row['anime_id']}"):
                     if anime_row['anime_id'] not in st.session_state.my_library:
                         st.session_state.my_library.append(anime_row['anime_id'])
-                        st.success(f"✅ Đã thêm '{anime_row['Name']}' vào Tư phim!")
+                        st.success(f"✅ Đã thêm '{anime_row['Name']}' vào Tủ phim!")
                         st.rerun()
                     else:
-                        st.warning("Anime đã có trong Tư phim!")
+                        st.warning("Anime đã có trong Tủ phim!")
 
 # Pages
 if page == "🏠 Trang chủ":
-    st.markdown("## 🎯 Dựa trên Tư phim của tôi")
+    st.markdown("## 🎯 Dựa trên Tủ phim của tôi")
     
     if len(st.session_state.my_library) > 0:
-        st.info(f"📚 Bạn có {len(st.session_state.my_library)} anime trong Tư phim")
+        st.info(f"📚 Bạn có {len(st.session_state.my_library)} anime trong Tủ phim")
         
         recommendations = get_personalized_recommendations(
             st.session_state.my_library,
@@ -325,7 +325,7 @@ if page == "🏠 Trang chủ":
             st.warning("Không tìm thấy gợi ý phù hợp với tâm trạng này!")
     
     else:
-        st.warning("🎯 Thư viện trống! Hãy thêm anime vào Tư phim để nhận gợi ý.")
+        st.warning("🎯 Thư viện trống! Hãy thêm anime vào Tủ phim để nhận gợi ý.")
         
         st.markdown("### 🔥 Top Anime phổ biến")
         top_anime = anime_df.nlargest(12, 'Score')
@@ -337,8 +337,8 @@ if page == "🏠 Trang chủ":
                     with col:
                         display_anime_card(top_anime.iloc[i + j])
 
-elif page == "📚 Quản lý Tư phim":
-    st.markdown("## 📚 Tư phim của tôi")
+elif page == "📚 Quản lý Tủ phim":
+    st.markdown("## 📚 Tủ phim của tôi")
     
     if len(st.session_state.my_library) > 0:
         library_anime = anime_df[anime_df['anime_id'].isin(st.session_state.my_library)]
@@ -363,11 +363,11 @@ elif page == "📚 Quản lý Tư phim":
         
         if st.button("🗑️ Xóa toàn bộ"):
             st.session_state.my_library = []
-            st.success("Đã xóa toàn bộ Tư phim!")
+            st.success("Đã xóa toàn bộ Tủ phim!")
             st.rerun()
     
     else:
-        st.info("Tư phim trống. Hãy thêm anime từ trang Tìm kiếm!")
+        st.info("Tủ phim trống. Hãy thêm anime từ trang Tìm kiếm!")
 
 elif page == "🔍 Tìm kiếm":
     st.markdown("## 🔍 Tìm kiếm Anime")
@@ -415,7 +415,7 @@ elif page == "📊 Biểu đồ phân tích":
     with col3:
         st.metric("🎭 Thể loại", len(genre_cols))
     with col4:
-        st.metric("📚 Tư phim", len(st.session_state.my_library))
+        st.metric("📚 Tủ phim", len(st.session_state.my_library))
     
     st.markdown("---")
     
